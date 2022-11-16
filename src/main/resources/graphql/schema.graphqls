@@ -1,0 +1,24 @@
+type Message {
+    id: ID!
+    name: String
+    surname: String
+    email: String
+    content: String
+}
+
+input MessageInput {
+    name: String
+    surname: String
+    email: String
+    content: String
+}
+
+type Query {
+    message(id: ID): Message
+    allMessages: [Message]
+}
+
+type Mutation {
+    deleteMessage(id: ID): String
+    saveMessage(message: MessageInput): Message
+}
