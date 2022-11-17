@@ -1,6 +1,7 @@
 package app.sanavaulth.service
 
 import app.sanavaulth.config.CaptchaConfig
+import app.sanavaulth.exception.ErrorType
 import app.sanavaulth.model.Message
 import app.sanavaulth.repository.MessageRepository
 import app.sanavaulth.utils.Captcha
@@ -21,15 +22,14 @@ class MessageService {
     }
 
     fun findById(id: Long): Message {
-        return messageRepository.findById(id).get()
+        return messageRepository.findById(id)
+            .orElseThrow { Exception(ErrorType.NOT_FOUND.name) }
     }
 
     fun create(message: Message, captcha: String): Message {
-        if(Captcha.verify(token = captcha, config = captchaConfig)){
-            return messageRepository.save(message)
-        } else {
-            throw Exception("Captcha is not valid")
-        }
+        if(!Captcha.verify(token = captcha, config = captchaConfig))
+            throw Exception(ErrorType.INVALID_CAPTCHA.name)
+        return messageRepository.save(message)
     }
 
     fun delete(id: Long) {
