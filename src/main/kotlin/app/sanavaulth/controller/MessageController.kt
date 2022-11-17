@@ -14,13 +14,14 @@ class MessageController {
     private lateinit var messageService: MessageService
 
     @QueryMapping
-    fun allMessages() = messageService.findAll()
+    fun messages() = messageService.findAll()
 
     @QueryMapping
     fun message(@Argument id: Long) = messageService.findById(id)
 
     @MutationMapping
-    fun saveMessage(@Argument message: Message) = messageService.save(message)
+    fun createMessage(@Argument message: Message, @Argument captcha: String)
+        = messageService.create(message, captcha)
 
     @MutationMapping
     fun deleteMessage(@Argument id: Long) = messageService.delete(id)

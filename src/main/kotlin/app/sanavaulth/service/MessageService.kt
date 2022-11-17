@@ -19,8 +19,7 @@ class MessageService {
         return messageRepository.findById(id).get()
     }
 
-    fun save(message: Message): Message {
-        println(message.toString())
+    fun create(message: Message, captcha: String): Message {
         return messageRepository.save(message)
     }
 

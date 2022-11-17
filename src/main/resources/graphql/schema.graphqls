@@ -7,18 +7,18 @@ type Message {
 }
 
 input MessageInput {
-    name: String
-    surname: String
-    email: String
-    content: String
+    name: String!
+    surname: String!
+    email: String!
+    content: String!
 }
 
 type Query {
     message(id: ID): Message
-    allMessages: [Message]
+    messages: [Message]
 }
 
 type Mutation {
     deleteMessage(id: ID): String
-    saveMessage(message: MessageInput): Message
+    createMessage(message: MessageInput!, captcha: String!): Message
 }
