@@ -1,7 +1,9 @@
 package app.sanavaulth.service
 
+import app.sanavaulth.config.CaptchaConfig
 import app.sanavaulth.model.Message
 import app.sanavaulth.repository.MessageRepository
+import app.sanavaulth.utils.Captcha
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -10,6 +12,9 @@ class MessageService {
 
     @Autowired
     private lateinit var messageRepository: MessageRepository
+
+    @Autowired
+    private lateinit var captchaConfig: CaptchaConfig
 
     fun findAll(): List<Message> {
         return messageRepository.findAll()
@@ -20,7 +25,11 @@ class MessageService {
     }
 
     fun create(message: Message, captcha: String): Message {
-        return messageRepository.save(message)
+        if(Captcha.verify(token = captcha, config = captchaConfig)){
+            return messageRepository.save(message)
+        } else {
+            throw Exception("Captcha is not valid")
+        }
     }
 
     fun delete(id: Long) {

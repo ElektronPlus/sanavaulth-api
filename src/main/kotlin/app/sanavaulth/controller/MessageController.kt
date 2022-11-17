@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller
 
 @Controller
 class MessageController {
+
     @Autowired
     private lateinit var messageService: MessageService
 
